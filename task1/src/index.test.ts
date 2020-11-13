@@ -1,18 +1,19 @@
-import {fibonacci} from './index';
-import * as chai from 'chai';
+import { DPFibonacci } from "./index";
 
-const expect = chai.expect;
-describe('My fibonacci program', () => {
-  it('should return 2 for 3 as nth value' , () => {
-    expect(fibonacci(3)).to.equal(2);
+describe("My fibonacci program", () => {
+  describe("Calling function with valid inputs", () => {
+    it("should not throw any kind of errors", async function () {
+      expect(await DPFibonacci(1)).toBe(1);
+      expect(await DPFibonacci(2)).toBe(1);
+      expect(await DPFibonacci(3)).toBe(2);
+      expect(await DPFibonacci(5)).toBe(5);
+      expect(await DPFibonacci(10)).toBe(55);
+    });
   });
-  it('should return 102334155 for 40 as nth value' , () => {
-    expect(fibonacci(40)).to.equal(102334155);
-  });
-  it('should return 1 for 1 as nth value' , () => {
-    expect(fibonacci(1)).to.equal(1);
-  });
-  it('should return 0 for 0 as nth value' , () => {
-    expect(fibonacci(0)).to.equal(0);
+
+  describe("calling functions with invalid inputs", () => {
+    it("should return invalid input", async function () {
+      expect(await DPFibonacci(-1)).toBe("invalid input");
+    });
   });
 });

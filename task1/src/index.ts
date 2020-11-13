@@ -1,10 +1,23 @@
-export function fibonacci(n: number): number {
-    let memo: any = {};
-    function helper(x: number): number {
-        if(x <= 1) return x;
-        if(memo[x]) return memo[x];
+import { Cache } from "./cache";
+import { RedisCache } from "./redis_cache";
 
-        return memo[x] = helper(x-1) + helper(x-2);
+let cache = new Cache();
+let redisCache = new RedisCache();
+
+export async function DPFibonacci(n: number): Promise<number | string> {
+  if (n < 0) {
+    return "invalid input";
+  } else if (await cache.check(n)) {
+    return await redisCache.get(n);
+  } else {
+    const length = await (await redisCache.list()).length;
+    let result = 0;
+
+    for (let i = length; i <= n; i++) {
+      result = (await redisCache.get(i - 1)) + (await redisCache.get(i - 2));
+      await redisCache.set(i, result);
     }
-    return helper(n);
+
+    return result;
+  }
 }
