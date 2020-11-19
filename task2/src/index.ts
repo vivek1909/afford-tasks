@@ -1,71 +1,75 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid } from "uuid";
+import { Product } from "./Products";
 
-export interface ICart {
-  add(product: Product): void;
-  get(id: string): Product | undefined;
-  getAll(): Product[];
-  update(id: string, product: Product): void;
-  remove(id: string): void;
-  removeAll(): void;
-  count(): number;
+export class Cart {
+  public readonly id: string;
+  private readonly products: Product[] = [];
+
+  constructor(id: string = uuid()) {
+    this.id = id;
+  }
+
+  public getAllProducts = (): Product[] => {
+    return this.products;
+  };
+
+  public getOneProduct = (id: string): Product | undefined => {
+    const productIndex = this.products.find(
+      (product: Product) => product.id === id
+    );
+
+    if (productIndex) {
+      return productIndex;
+    }
+
+    throw new Error("product not found");
+  };
+
+  public addProduct = (product: Product): string => {
+    this.products.push(product);
+    return product.id;
+  };
+
+  public updateProduct = (id: string, name: string) => {
+    const productIndex = this.products.find(
+      (product: Product) => product.id === id
+    );
+
+    if (productIndex) {
+      productIndex.name = name;
+    }
+
+    throw new Error("product cannot be updated");
+  };
+
+  public removeProduct = (id: string): void => {
+    const productIndex = this.products.findIndex(
+      (product: Product) => product.id === id
+    );
+
+    if (productIndex) {
+      this.products.splice(productIndex, 1);
+      return;
+    }
+
+    throw new Error("product not found");
+  };
+
+  public removeAllProducts = (): void => {
+    if (!this.products.length) {
+      throw new Error("cart already empty");
+    }
+    this.products.splice(0, this.products.length);
+  };
+
+  public count = (): number => {
+    return this.products.length;
+  };
 }
 
-export class Cart implements ICart {
-  private _productMap: Map<string, Product> = new Map();
-
-  public add(product: Product): void {
-    this._productMap.set(product.id, product);
-  }
-
-  public update(id: string, product: Product): void {
-    this._productMap.set(id, product);
-  }
-
-  public get(id: string): Product | undefined {
-    return this._productMap.get(id);
-  }
-
-  public getAll(): Product[] {
-    return Array.from(this._productMap.values());
-  }
-
-  public remove(id: string): void {
-    this._productMap.delete(id);
-  }
-
-  public count(): number {
-    return this._productMap.size;
-  }
-
-  public removeAll(): void {
-    this._productMap.clear();
-  }
-}
-
-export class Product {
-  private _name: string;
-  private _id: string;
-
-  constructor(name: string) {
-    this._name = name;
-    this._id = uuidv4();
-  }
-
-  public get name(): string {
-    return this._name;
-  }
-
-  public get id(): string {
-    return this._id;
-  }
-}
-
-// let item1 = new Product("item1");
-// let item2 = new Product("item2");
+// let list = new Product("item1");
 
 // let cart = new Cart();
 
-// cart.add(item1);
-// cart.add(item2);
-
-// console.log(cart);
+// console.log(cart.addProduct(list));
+// cart.getOneProduct("b97205cb-68ab-42be-a83b-69305e05a58b");
