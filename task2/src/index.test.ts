@@ -34,6 +34,13 @@ describe("Cart.addProduct()", () => {
     });
   });
 
+  describe("when name is empty", () => {
+    it("should throw an error", () => {
+      const cart = new Cart();
+      expect(cart.addProduct({ name: "", id: "item-1-id" })).toThrow();
+    });
+  });
+
   describe("cart is not empty", () => {
     it("should return number of items in cart", () => {
       const mockProducts = [new Product("item1"), new Product("item2")];
@@ -60,7 +67,7 @@ describe("Cart.getOneProduct()", () => {
       cart.addProduct(mockProduct);
     });
 
-    const productIndex = cart.getOneProduct("item-2-id");
+    const productIndex = cart.getOneProduct("item-1-id");
 
     if (productIndex) {
       expect(productIndex).toEqual({ name: "item1", id: "item-1-id" });

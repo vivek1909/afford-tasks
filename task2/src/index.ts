@@ -26,8 +26,12 @@ export class Cart {
   };
 
   public addProduct = (product: Product): string => {
-    this.products.push(product);
-    return product.id;
+    if (product.name.length) {
+      this.products.push(product);
+      return product.id;
+    } else {
+      throw new Error("please enter name of the product");
+    }
   };
 
   public updateProduct = (id: string, name: string) => {
@@ -37,6 +41,7 @@ export class Cart {
 
     if (productIndex) {
       productIndex.name = name;
+      return;
     }
 
     throw new Error("product cannot be updated");
