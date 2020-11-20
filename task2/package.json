@@ -1,14 +1,18 @@
 {
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
+    "guid": "^0.0.12",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
     "@types/guid": "^1.0.0",
     "@types/jest": "^26.0.15",
     "@types/uuid": "^8.3.0",
-    "guid": "^0.0.12",
-    "jest": "^26.6.3",
-    "uuid": "^8.3.1"
+    "ts-jest": "^26.4.4"
   }
 }

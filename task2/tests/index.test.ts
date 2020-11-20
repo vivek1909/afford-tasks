@@ -1,5 +1,5 @@
-import { Cart } from "./index";
-import { Product } from "./Products";
+import { Cart } from "../src/index";
+import { Product } from "../src/Products";
 
 describe("Cart.getAllProducts", () => {
   describe("when function is called and there is no product in cart", () => {
@@ -35,9 +35,13 @@ describe("Cart.addProduct()", () => {
   });
 
   describe("when name is empty", () => {
-    it("should throw an error", () => {
+    it("should throw an error with message 'please enter name of the product'", () => {
       const cart = new Cart();
-      expect(cart.addProduct({ name: "", id: "item-1-id" })).toThrow();
+      try {
+        cart.addProduct({ name: "", id: "item-1-id" });
+      } catch (error) {
+        expect(error.message).toBe("please enter name of the product");
+      }
     });
   });
 
@@ -72,5 +76,23 @@ describe("Cart.getOneProduct()", () => {
     if (productIndex) {
       expect(productIndex).toEqual({ name: "item1", id: "item-1-id" });
     }
+  });
+});
+
+describe("Cart.updatePorduct()", () => {
+  it("should update the name of that product", () => {
+    const mockProducts = [
+      new Product("item1", "item-1-id"),
+      new Product("item2", "item-2-id"),
+    ];
+    const cart = new Cart();
+
+    mockProducts.forEach((mockProduct) => {
+      cart.addProduct(mockProduct);
+    });
+
+    cart.updateProduct("item-1-id", "item1-updated");
+
+    expect(cart.getOneProduct("item-1-id")?.name).toBe("item1-updated");
   });
 });
