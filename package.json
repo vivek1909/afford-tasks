@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "ts-jest": "^26.4.4"
-  },
-  "dependencies": {
-    "typescript": "^4.0.5"
-  }
-}

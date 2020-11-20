@@ -79,7 +79,7 @@ describe("Cart.getOneProduct()", () => {
   });
 });
 
-describe("Cart.updatePorduct()", () => {
+describe("Cart.updateProduct()", () => {
   it("should update the name of that product", () => {
     const mockProducts = [
       new Product("item1", "item-1-id"),
@@ -94,5 +94,41 @@ describe("Cart.updatePorduct()", () => {
     cart.updateProduct("item-1-id", "item1-updated");
 
     expect(cart.getOneProduct("item-1-id")?.name).toBe("item1-updated");
+  });
+});
+
+describe("Cart.removeAllProducts", () => {
+  it("should remove all the products from cart", () => {
+    const mockProducts = [new Product("item1"), new Product("item2")];
+    const cart = new Cart();
+
+    mockProducts.forEach((mockProduct) => {
+      cart.addProduct(mockProduct);
+    });
+
+    cart.removeAllProducts();
+
+    expect(cart.count()).toBe(0);
+  });
+});
+
+describe("Cart.removeProduct", () => {
+  it("should remove that specific product", () => {
+    const mockProducts = [
+      new Product("item1", "item-1-id"),
+      new Product("item2", "item-2-id"),
+    ];
+    const cart = new Cart();
+
+    mockProducts.forEach((mockProduct) => {
+      cart.addProduct(mockProduct);
+    });
+
+    try {
+      cart.removeProduct("item-1-id");
+      expect(cart.count()).toBe(1);
+    } catch (error) {
+      expect(error.message).toBe("product not found");
+    }
   });
 });

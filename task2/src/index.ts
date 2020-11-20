@@ -71,10 +71,3 @@ export class Cart {
     return this.products.length;
   };
 }
-
-// let list = new Product("item1");
-
-// let cart = new Cart();
-
-// console.log(cart.addProduct(list));
-// cart.getOneProduct("b97205cb-68ab-42be-a83b-69305e05a58b");
